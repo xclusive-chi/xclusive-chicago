@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,6 +35,7 @@ export default function SignUpPage() {
   });
   const [clubs, setClubs] = useState<{ id: string; name: string }[]>([]);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const upcomingDates = getUpcomingDates();
@@ -97,9 +98,10 @@ export default function SignUpPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     const voucherCode = Math.random()
       .toString(36)
@@ -136,6 +138,8 @@ export default function SignUpPage() {
           error.message || "Error submitting form. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -332,8 +336,19 @@ export default function SignUpPage() {
                   >
                     Back
                   </Button>
-                  <Button type="submit" className="w-2/3">
-                    Submit
+                  <Button
+                    type="submit"
+                    className="w-2/3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <span className="animate-spin inline-block mr-2">⭮</span>
+                        Signing Up...
+                      </>
+                    ) : (
+                      'Sign Up'
+                    )}
                   </Button>
                 </div>
               </div>
