@@ -1,10 +1,6 @@
 "use client"
 
-<<<<<<< HEAD
 import { useState } from "react"
-=======
-import { useState, FormEvent, ChangeEvent } from "react"
->>>>>>> 9b9f42d (Updated website files)
 import { useRouter } from "next/navigation"
 import { getGuestByVoucherCode, updateGuestCheckIn } from "../services/supabaseService"
 import Image from "next/image"
@@ -12,28 +8,15 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-<<<<<<< HEAD
-=======
-import { Spinner } from "../../components/ui/spinner"
->>>>>>> 9b9f42d (Updated website files)
 
 export default function CheckIn() {
   const [voucherCode, setVoucherCode] = useState("")
   const [error, setError] = useState("")
   const router = useRouter()
-<<<<<<< HEAD
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
-=======
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setError("")
-    setIsLoading(true)
->>>>>>> 9b9f42d (Updated website files)
     try {
       const guest = await getGuestByVoucherCode(voucherCode)
       if (!guest) {
@@ -53,11 +36,6 @@ export default function CheckIn() {
     } catch (error) {
       console.error("Error during check-in:", error)
       setError("An error occurred. Please try again or see staff for assistance.")
-<<<<<<< HEAD
-=======
-    } finally {
-      setIsLoading(false)
->>>>>>> 9b9f42d (Updated website files)
     }
   }
 
@@ -88,11 +66,7 @@ export default function CheckIn() {
                 type="text"
                 id="voucherCode"
                 value={voucherCode}
-<<<<<<< HEAD
                 onChange={(e) => setVoucherCode(e.target.value)}
-=======
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setVoucherCode(e.target.value)}
->>>>>>> 9b9f42d (Updated website files)
                 required
                 className="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 bg-white text-black py-3 px-4 text-lg font-mono"
                 placeholder="Enter your voucher code"
@@ -101,23 +75,9 @@ export default function CheckIn() {
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <Button
               type="submit"
-<<<<<<< HEAD
               className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
             >
               Verify and Check In
-=======
-              disabled={isLoading}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
-            >
-              {isLoading ? (
-                <>
-                  <Spinner className="mr-2 h-4 w-4" />
-                  Verifying...
-                </>
-              ) : (
-                "Verify and Check In"
-              )}
->>>>>>> 9b9f42d (Updated website files)
             </Button>
           </form>
         </div>
