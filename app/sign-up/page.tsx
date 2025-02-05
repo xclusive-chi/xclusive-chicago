@@ -19,6 +19,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/use-toast";
 // import { addGuest, getClubsByDate } from "../services/supabaseService"
 import { supabase } from "@/lib/supabaseClient";
+<<<<<<< HEAD
+=======
+import { Spinner } from "../../components/ui/spinner";
+import type { ChangeEvent, FormEvent } from "react"
+>>>>>>> 9b9f42d (Updated website files)
 
 export default function SignUpPage() {
   const [step, setStep] = useState(1);
@@ -36,6 +41,10 @@ export default function SignUpPage() {
   const [clubs, setClubs] = useState<{ id: string; name: string }[]>([]);
   const [error, setError] = useState("");
   const router = useRouter();
+<<<<<<< HEAD
+=======
+  const [isLoading, setIsLoading] = useState(false);
+>>>>>>> 9b9f42d (Updated website files)
 
   const upcomingDates = getUpcomingDates();
 
@@ -87,7 +96,11 @@ export default function SignUpPage() {
   };
 
   const handleChange = (
+<<<<<<< HEAD
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+=======
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+>>>>>>> 9b9f42d (Updated website files)
   ) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
@@ -97,8 +110,14 @@ export default function SignUpPage() {
     }));
   };
 
+<<<<<<< HEAD
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+=======
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+>>>>>>> 9b9f42d (Updated website files)
     setError("");
 
     const voucherCode = Math.random()
@@ -136,6 +155,11 @@ export default function SignUpPage() {
           error.message || "Error submitting form. Please try again.",
         variant: "destructive",
       });
+<<<<<<< HEAD
+=======
+    } finally {
+      setIsLoading(false);
+>>>>>>> 9b9f42d (Updated website files)
     }
   };
 
@@ -223,7 +247,18 @@ export default function SignUpPage() {
                   disabled={!formData.date || !formData.clubId}
                   className="w-full"
                 >
+<<<<<<< HEAD
                   Continue
+=======
+                  {isLoading ? (
+                    <>
+                      <Spinner className="mr-2 h-4 w-4" />
+                      Continue
+                    </>
+                  ) : (
+                    "Continue"
+                  )}
+>>>>>>> 9b9f42d (Updated website files)
                 </Button>
               </div>
             )}
@@ -332,8 +367,20 @@ export default function SignUpPage() {
                   >
                     Back
                   </Button>
+<<<<<<< HEAD
                   <Button type="submit" className="w-2/3">
                     Submit
+=======
+                  <Button type="submit" disabled={isLoading} className="w-2/3">
+                    {isLoading ? (
+                      <>
+                        <Spinner className="mr-2 h-4 w-4" />
+                        Submitting...
+                      </>
+                    ) : (
+                      "Submit"
+                    )}
+>>>>>>> 9b9f42d (Updated website files)
                   </Button>
                 </div>
               </div>
