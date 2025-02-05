@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, FormEvent, ChangeEvent } from "react"
 import { useRouter } from "next/navigation"
 import { getGuestByVoucherCode, updateGuestCheckIn } from "../services/supabaseService"
 import Image from "next/image"
@@ -12,11 +12,13 @@ import { Label } from "@/components/ui/label"
 export default function CheckIn() {
   const [voucherCode, setVoucherCode] = useState("")
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
+    setIsLoading(true)
     try {
       const guest = await getGuestByVoucherCode(voucherCode)
       if (!guest) {
@@ -36,7 +38,13 @@ export default function CheckIn() {
     } catch (error) {
       console.error("Error during check-in:", error)
       setError("An error occurred. Please try again or see staff for assistance.")
+    } finally {
+      setIsLoading(false)
     }
+  }
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setVoucherCode(e.target.value)
   }
 
   return (
@@ -66,18 +74,27 @@ export default function CheckIn() {
                 type="text"
                 id="voucherCode"
                 value={voucherCode}
-                onChange={(e) => setVoucherCode(e.target.value)}
+                onChange={handleInputChange}
                 required
                 className="mt-1 block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 bg-white text-black py-3 px-4 text-lg font-mono"
                 placeholder="Enter your voucher code"
+                disabled={isLoading}
               />
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <Button
               type="submit"
               className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+              disabled={isLoading}
             >
-              Verify and Check In
+              {isLoading ? (
+                <>
+                  <span className="animate-spin inline-block mr-2">⭮</span>
+                  Verifying...
+                </>
+              ) : (
+                'Verify and Check In'
+              )}
             </Button>
           </form>
         </div>
